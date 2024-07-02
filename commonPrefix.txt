@@ -1,0 +1,49 @@
+// Given 2 Arrays find the largest common prefix of number from 2nd array comparing them with first array
+
+
+class Node{
+public:
+    unordered_map<int, Node*>mp;
+    bool isEnd = false;
+};
+int res = 0;
+Node* TrieStart = new Node();
+void Trie(int i, bool flag){
+    Node* crawler = TrieStart;
+    vector<int>number;
+    while(i){
+        int dig = i%10;
+        i /= 10;
+        number.push_back(dig);
+    }
+    reverse(number.begin(), number.end());
+    if(!flag){
+        for(auto i : number){
+            if(!crawler->mp.count(i))
+                crawler->mp[i] = new Node();
+            crawler = crawler->mp[i];
+        }
+    crawler->isEnd = true;
+    }
+    else{
+        int counter = 0;
+        for(auto i : number){
+            if(!crawler->mp.count(i))
+                return;
+            res = max(res, ++counter);
+            crawler = crawler->mp[i];
+        }        
+    }
+    
+}
+int main() {
+    vector<int>a{255, 12, 56778, 45, 3458, 754935};
+    vector<int>b{25, 2, 56, 45, 348, 7548, 346};
+    for(auto i : a){
+        Trie(i, false);
+    }
+    for(auto i : b){
+        Trie(i, true);
+    }
+     cout<<res;
+}
