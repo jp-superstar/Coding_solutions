@@ -1,0 +1,32 @@
+//Frog jump 2
+
+n = 7
+arr = 10 40 20 20 50 80 30
+k = 2
+
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+    int n;
+    cin>>n;
+    vector<int>arr;
+    for(int i=0;i<n;i++){
+        int temp;
+        cin>>temp;
+        arr.push_back(temp);
+    }
+    int k;
+    cin>>k;
+    
+    vector<int>dp(n, INT_MAX);
+    dp[n-1] = 0;
+    for(int i=n-2;i>=0;i--){
+        for(int j=1;j<=k and i+j<n;j++)
+            dp[i] = min(dp[i+j]+abs(arr[i]-arr[i+j]), dp[i]);
+    }
+    // for(int i=0;i<n;i++){
+    //     cout<<dp[i]<<" ";
+    // }
+    cout<< dp[0];
+    
+}
