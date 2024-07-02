@@ -1,0 +1,42 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+  public:
+    int find(int a, unordered_map<int,int>& mp){
+        if(mp[a] == a)
+            return a;
+        return mp[a] = find(mp[a], mp);
+    }
+    bool union_(int a, int b, unordered_map<int, int>& mp){
+        int a_parent = mp[a], b_parent = mp[b];
+        if(a_parent == b_parent) return false;
+        mp[b] = find(a, mp);
+        return true;
+    }
+    // Function to detect cycle in an undirected graph.
+    bool isCycle(int V, vector<int> adj[]) {
+        // Code here
+        unordered_map<int, int>mp;
+        set<pair<int, int>>seen;
+        for(int i=0;i<V;i++){
+            mp[i] = i;
+        }
+        for(int i=0;i<V;i++){
+            for(auto j : adj[i]){
+                if(!seen.count({i,j}) || !seen.count({j,i}) ){
+                    if(union_(i, j, mp)){
+                        //cout<<mp[j] <<endl;
+                        seen.insert({i, j});
+                        seen.insert({j, i});
+                    }
+                    else 
+                        return 1;
+                }
+            }
+        }
+        return 0;
+    }
+};
